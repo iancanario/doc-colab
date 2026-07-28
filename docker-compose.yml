@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: doc-colab-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev@1234
+      POSTGRES_DB: doc-colab
+    ports:
+      - "5432:5432"
+    volumes:
+      - doc-colab-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev -d doc-colab"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  doc-colab-db-data:
