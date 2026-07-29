@@ -1,9 +1,18 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { EmployeeDocumentRequirement } from '../../../modules/employees/entities/employee-document-requirement.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { OneToMany } from 'typeorm/browser';
 
 @Entity('document_types')
 export class DocumentType {
   @PrimaryGeneratedColumn()
-  id!: string;
+  id!: number;
 
   @Column()
   name!: string;
@@ -11,9 +20,15 @@ export class DocumentType {
   @Column()
   code!: string;
 
-  @CreateDateColumn({name: 'created_at'})
+  @OneToMany(
+    () => EmployeeDocumentRequirement,
+    (requirement) => requirement.documentType,
+  )
+  employeeRequirements!: EmployeeDocumentRequirement[];
+
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @DeleteDateColumn({name: 'deleted_at', nullable: true})
-  deletedAt?: Date
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt?: Date;
 }

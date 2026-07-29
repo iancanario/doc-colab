@@ -1,8 +1,12 @@
+import { EmployeeDocumentRequirement } from '../../../modules/employees/entities/employee-document-requirement.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('employees')
@@ -16,6 +20,18 @@ export class Employee {
   @Column({ unique: true })
   email!: string;
 
+  @OneToMany(
+    () => EmployeeDocumentRequirement,
+    (requirement) => requirement.employee,
+  )
+  documentRequirements!: EmployeeDocumentRequirement[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }

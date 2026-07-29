@@ -24,6 +24,7 @@ describe('EmployeesService', () => {
       const dto = {
         name: 'John Doe',
         email: 'john@email.com',
+        documentTypeIds: [2, 3],
       };
 
       repository.createEmployee.mockResolvedValue({} as Employee);

@@ -68,6 +68,7 @@ export class EmployeesService implements IEmployeesService {
       await this.employeesRepository.deleteEmployee(id);
       return { message: 'Delete employee successfully' };
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException('Error to delete employee', {
         cause: error,
       });

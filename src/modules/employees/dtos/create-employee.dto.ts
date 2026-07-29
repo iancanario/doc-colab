@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateEmployeeDTO {
   @IsString()
@@ -7,4 +7,7 @@ export class CreateEmployeeDTO {
 
   @IsEmail()
   email!: string;
+
+  @IsArray()
+  documentTypeIds!: number[];
 }
