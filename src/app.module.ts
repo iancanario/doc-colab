@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './common/database/data-source';
+import { DocumentTypesModule } from './modules/documentTypes/documentTypes.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { dataSourceOptions } from './common/database/data-source';
         return dataSourceOptions;
       },
     }),
+    DocumentTypesModule,
   ],
   controllers: [],
   providers: [],
