@@ -1,7 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
-import { DocumentType } from './entities/documentType.entity';
-import { IDocumentTypesRepository } from './interfaces/documentTypesRepository.interface';
-import { CreateDocumentType } from './DTOs/createDocumentType.dto';
+import { DocumentType } from './entities/document-type.entity';
+import { IDocumentTypesRepository } from './interfaces/document-types-repository.interface';
+import { CreateDocumentTypeDTO } from './dtos/create-document-type.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class DocumentTypesRepository
   }
 
   async createRepositoryType(
-    documentType: CreateDocumentType,
+    documentType: CreateDocumentTypeDTO,
   ): Promise<DocumentType> {
     const newDocumentType = this.create(documentType);
     return await this.save(newDocumentType);

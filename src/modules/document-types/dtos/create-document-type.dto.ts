@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateDocumentType {
+export class CreateDocumentTypeDTO {
   @IsString()
   @IsNotEmpty()
   name!: string;

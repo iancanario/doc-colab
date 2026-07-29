@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { join } from 'path';
-import { DocumentType } from '../../modules/documentTypes/entities/documentType.entity';
+import { DocumentType } from '../../modules/document-types/entities/document-type.entity';
 import { DataSourceOptions } from 'typeorm';
 
 config();

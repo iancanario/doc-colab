@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './common/database/data-source';
-import { DocumentTypesModule } from './modules/documentTypes/documentTypes.module';
+import { DocumentTypesModule } from './modules/document-types/document-types.module';
+import { EmployeesModule } from './modules/employees/employees.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { DocumentTypesModule } from './modules/documentTypes/documentTypes.modul
       },
     }),
     DocumentTypesModule,
+    EmployeesModule,
   ],
   controllers: [],
   providers: [],

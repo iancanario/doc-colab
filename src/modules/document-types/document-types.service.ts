@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IDocumentTypesService } from './interfaces/documentTypesService.interface';
-import { IDocumentTypesRepository } from './interfaces/documentTypesRepository.interface';
-import { CreateDocumentType } from './DTOs/createDocumentType.dto';
-import { DocumentType } from './entities/documentType.entity';
+import { IDocumentTypesService } from './interfaces/document-types-service.interface';
+import { IDocumentTypesRepository } from './interfaces/document-types-repository.interface';
+import { CreateDocumentTypeDTO } from './dtos/create-document-type.dto';
+import { DocumentType } from './entities/document-type.entity';
 
 @Injectable()
 export class DocumentTypesService implements IDocumentTypesService {
@@ -12,7 +12,7 @@ export class DocumentTypesService implements IDocumentTypesService {
   ) {}
 
   async createDocumentType(
-    documentType: CreateDocumentType,
+    documentType: CreateDocumentTypeDTO,
   ): Promise<{ message: string }> {
     try {
       await this.dtRepository.createRepositoryType(documentType);

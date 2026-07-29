@@ -1,16 +1,24 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post } from "@nestjs/common";
-import { CreateDocumentType } from "./DTOs/createDocumentType.dto";
-import { IDocumentTypesService } from "./interfaces/documentTypesService.interface";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { CreateDocumentTypeDTO } from './dtos/create-document-type.dto';
+import { IDocumentTypesService } from './interfaces/document-types-service.interface';
 
 @Controller('document-types')
 export class DocumentTypesController {
   constructor(
     @Inject(IDocumentTypesService)
-    private readonly dtService: IDocumentTypesService
+    private readonly dtService: IDocumentTypesService,
   ) {}
 
   @Post()
-  create(@Body() documentType: CreateDocumentType) {
+  create(@Body() documentType: CreateDocumentTypeDTO) {
     return this.dtService.createDocumentType(documentType);
   }
 

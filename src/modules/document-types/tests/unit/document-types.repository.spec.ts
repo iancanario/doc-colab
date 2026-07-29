@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { DocumentTypesRepository } from '../../documentTypes.repository';
-import { DocumentType } from '../../entities/documentType.entity';
+import { DocumentTypesRepository } from '../../document-types.repository';
+import { DocumentType } from '../../entities/document-type.entity';
 
 describe('DocumentTypesRepository', () => {
   let repository: DocumentTypesRepository;
@@ -17,7 +17,7 @@ describe('DocumentTypesRepository', () => {
     it('should create and save a document type', async () => {
       const dto = {
         name: 'Contrato',
-        code: 'Contract'
+        code: 'Contract',
       };
 
       const entity = dto as DocumentType;
@@ -26,9 +26,7 @@ describe('DocumentTypesRepository', () => {
         .spyOn(repository, 'create')
         .mockReturnValue(entity);
 
-      const saveSpy = jest
-        .spyOn(repository, 'save')
-        .mockResolvedValue(entity);
+      const saveSpy = jest.spyOn(repository, 'save').mockResolvedValue(entity);
 
       const result = await repository.createRepositoryType(dto);
 

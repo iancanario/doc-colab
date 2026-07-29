@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DocumentTypesService } from '../../documentTypes.service';
-import { IDocumentTypesRepository } from '../../interfaces/documentTypesRepository.interface';
-import { DocumentType } from '../../entities/documentType.entity';
+import { DocumentTypesService } from '../../document-types.service';
+import { IDocumentTypesRepository } from '../../interfaces/document-types-repository.interface';
+import { DocumentType } from '../../entities/document-type.entity';
 
 describe('DocumentTypesService', () => {
   let service: DocumentTypesService;
@@ -32,7 +32,7 @@ describe('DocumentTypesService', () => {
     it('should create a document type successfully', async () => {
       const dto = {
         name: 'Contrato',
-        code: 'Contract'
+        code: 'Contract',
       };
 
       repositoryMock.createRepositoryType.mockResolvedValue(dto);
@@ -53,7 +53,7 @@ describe('DocumentTypesService', () => {
       await expect(
         service.createDocumentType({
           name: 'Contrato',
-          code: 'Contract'
+          code: 'Contract',
         }),
       ).rejects.toThrow('Error in create document type');
     });
@@ -65,7 +65,7 @@ describe('DocumentTypesService', () => {
         {
           id: '1',
           name: 'Contrato',
-          code: 'Contract'
+          code: 'Contract',
         },
       ] as DocumentType[];
 
