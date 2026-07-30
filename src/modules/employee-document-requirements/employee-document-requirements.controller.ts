@@ -18,4 +18,9 @@ export class EmployeeDocumentRequirementsController {
   percentualPendings() {
     return this.requirementService.percentualSentDocuments();
   }
+
+  @Get('most-pendings')
+  mostDocsPendings() {
+    return this.requirementService.mostDocumentsPendings();
+  }
 }

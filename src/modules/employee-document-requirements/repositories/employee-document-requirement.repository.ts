@@ -76,4 +76,20 @@ export class EmployeeDocumentRequirementsRepository extends Repository<EmployeeD
 
     return pendingPercentage;
   }
+
+  async mostDocumentsPendings(): Promise<EmployeeDocumentRequirement[]> {
+    return this.createQueryBuilder('requirement')
+      .innerJoin('requirement.documentType', 'documentType')
+      .select('documentType.id', 'id')
+      .addSelect('documentType.name', 'name')
+      .addSelect('COUNT(*)', 'pending')
+      .where('requirement.status = :status', {
+        status: DocumentStatusEnum.Pending,
+      })
+      .groupBy('documentType.id')
+      .addGroupBy('documentType.name')
+      .orderBy('pending', 'DESC')
+      .limit(3)
+      .getRawMany();
+  }
 }
