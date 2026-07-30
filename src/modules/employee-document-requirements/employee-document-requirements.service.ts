@@ -10,9 +10,14 @@ export class EmployeeDocumentRequirementsService implements IEmployeeDocumentReq
     @Inject(IEmployeeDocumentRequirementRepository)
     private readonly requirementRepository: IEmployeeDocumentRequirementRepository,
   ) {}
+
   async findDocumentsPending(
     filters: FindPendingDocumentsDTO,
   ): Promise<{ data: EmployeeDocument[]; meta: any }> {
     return this.requirementRepository.findPendingDocuments(filters);
+  }
+
+  async percentualSentDocuments(): Promise<number> {
+    return this.requirementRepository.percentualSentDocuments();
   }
 }

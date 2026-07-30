@@ -5,4 +5,5 @@ export abstract class IEmployeeDocumentRequirementRepository {
   abstract findPendingDocuments(
     filters: FindPendingDocumentsDTO,
   ): Promise<{ data: EmployeeDocument[]; meta: any }>;
+  abstract percentualSentDocuments(): Promise<number>;
 }

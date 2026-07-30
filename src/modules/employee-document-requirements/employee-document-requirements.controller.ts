@@ -13,4 +13,9 @@ export class EmployeeDocumentRequirementsController {
   findPendings(@Query() filters: FindPendingDocumentsDTO) {
     return this.requirementService.findDocumentsPending(filters);
   }
+
+  @Get('percentual-pendings')
+  percentualPendings() {
+    return this.requirementService.percentualSentDocuments();
+  }
 }
