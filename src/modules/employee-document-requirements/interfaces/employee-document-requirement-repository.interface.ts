@@ -1,0 +1,8 @@
+import { EmployeeDocument } from 'src/modules/employee-documents/entities/employee-document.entity';
+import { FindPendingDocumentsDTO } from '../dtos/find-pending-documents.dto';
+
+export abstract class IEmployeeDocumentRequirementRepository {
+  abstract findPendingDocuments(
+    filters: FindPendingDocumentsDTO,
+  ): Promise<{ data: EmployeeDocument[]; meta: any }>;
+}

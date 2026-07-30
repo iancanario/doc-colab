@@ -1,11 +1,11 @@
 import { DataSource, In, Repository, UpdateResult } from 'typeorm';
-import { Employee } from './entities/employee.entity';
-import { IEmployeesRepository } from './interfaces/employees-repository.interface';
-import { CreateEmployeeDTO } from './dtos/create-employee.dto';
+import { Employee } from '../entities/employee.entity';
+import { IEmployeesRepository } from '../interfaces/employees-repository.interface';
+import { CreateEmployeeDTO } from '../dtos/create-employee.dto';
 import { Injectable } from '@nestjs/common';
-import { UpdateEmployeeDTO } from './dtos/update-employee.dto';
-import { EmployeeDocumentRequirement } from './entities/employee-document-requirement.entity';
-import { DocumentType } from '../document-types/entities/document-type.entity';
+import { UpdateEmployeeDTO } from '../dtos/update-employee.dto';
+import { DocumentType } from '../../document-types/entities/document-type.entity';
+import { EmployeeDocumentRequirement } from '../../employee-document-requirements/entities/employee-document-requirement.entity';
 
 @Injectable()
 export class EmployeesRepository

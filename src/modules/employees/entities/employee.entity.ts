@@ -1,4 +1,4 @@
-import { EmployeeDocumentRequirement } from '../../../modules/employees/entities/employee-document-requirement.entity';
+import { EmployeeDocumentRequirement } from '../../employee-document-requirements/entities/employee-document-requirement.entity';
 import {
   Column,
   CreateDateColumn,

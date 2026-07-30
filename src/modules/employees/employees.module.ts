@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Employee } from './entities/employee.entity';
 import { IEmployeesRepository } from './interfaces/employees-repository.interface';
-import { EmployeesRepository } from './employees.repository';
+import { EmployeesRepository } from './repositories/employees.repository';
 import { IEmployeesService } from './interfaces/employees-service.intreface';
 import { EmployeesService } from './employees.service';
 import { EmployeesController } from './employees.controller';
 import { DocumentType } from '../document-types/entities/document-type.entity';
-import { EmployeeDocumentRequirement } from './entities/employee-document-requirement.entity';
+import { EmployeeDocumentRequirement } from '../employee-document-requirements/entities/employee-document-requirement.entity';
 
 @Module({
   imports: [
