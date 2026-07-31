@@ -1,7 +1,7 @@
 import { DataSource, UpdateResult } from 'typeorm';
-import { EmployeesRepository } from '../../employees.repository';
+import { EmployeesRepository } from '../../repositories/employees.repository';
 import { Employee } from '../../entities/employee.entity';
-import { EmployeeDocumentRequirement } from '../../entities/employee-document-requirement.entity';
+import { EmployeeDocumentRequirement } from '../../../employee-document-requirements/entities/employee-document-requirement.entity';
 import { DocumentType } from '../../../../modules/document-types/entities/document-type.entity';
 
 describe('EmployeesRepository', () => {

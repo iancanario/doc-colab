@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { IEmployeeDocumentService } from './interfaces/employee-document-service.interface';
 import { CreateEmployeeDocumentDTO } from './dtos/create-employee-document.dto';
-import { FindPendingDocumentsDTO } from '../employee-document-requirements/dtos/find-pending-documents.dto';
 
 @Controller('documents')
 export class EmployeeDocumentsController {
@@ -22,6 +21,11 @@ export class EmployeeDocumentsController {
   @Post()
   create(@Body() documentDto: CreateEmployeeDocumentDTO) {
     return this.documentsService.create(documentDto);
+  }
+
+  @Get('find-last-sents')
+  findLastSents() {
+    return this.documentsService.findLastSents();
   }
 
   @Delete(':id')

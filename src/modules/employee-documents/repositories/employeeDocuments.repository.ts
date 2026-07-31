@@ -74,6 +74,21 @@ export class EmployeeDocumentsRepository
     });
   }
 
+  async findLastSents(): Promise<EmployeeDocument[]> {
+    return this.find({
+      relations: {
+        requirement: {
+          employee: true,
+          documentType: true,
+        },
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 10,
+    });
+  }
+
   async deleteEmployeeDocument(id: string): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
       const repository = manager.getRepository(EmployeeDocument);

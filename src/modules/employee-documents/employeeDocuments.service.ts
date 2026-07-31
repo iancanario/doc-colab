@@ -20,6 +20,10 @@ export class EmployeeDocumentsService implements IEmployeeDocumentService {
     return { message: 'Document linked successfully' };
   }
 
+  async findLastSents(): Promise<EmployeeDocument[]> {
+    return await this.documentsRepository.findLastSents();
+  }
+
   async delete(id: string): Promise<{ message: string }> {
     await this.documentsRepository.deleteEmployeeDocument(id);
     return { message: 'Document unlinked successfully' };
