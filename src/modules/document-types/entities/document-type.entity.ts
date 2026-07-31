@@ -5,9 +5,8 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
-import { OneToMany } from 'typeorm/browser';
 
 @Entity('document_types')
 export class DocumentType {
