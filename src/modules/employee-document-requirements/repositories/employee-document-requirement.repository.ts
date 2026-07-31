@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindPendingDocumentsDTO } from '../dtos/find-pending-documents.dto';
 import { DataSource, Repository } from 'typeorm';
-import { EmployeeDocument } from '../../employee-documents/entities/employee-document.entity';
-import { DocumentStatusEnum } from 'src/common/enums/document-status.enum';
+import { DocumentStatusEnum } from '../../../common/enums/document-status.enum';
 import { EmployeeDocumentRequirement } from '../entities/employee-document-requirement.entity';
 
 @Injectable()
