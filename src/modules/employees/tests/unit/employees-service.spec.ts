@@ -37,20 +37,18 @@ describe('EmployeesService', () => {
       expect(result).toEqual({ message: 'Create employee successfully' });
     });
 
-    it('should throw InternalServerErrorException when repository fails', async () => {
+    it('should propagate repository error when creating an employee', async () => {
       const dto: CreateEmployeeDTO = {
         name: 'John Doe',
         email: 'john@example.com',
         documentTypeIds: [1],
       } as CreateEmployeeDTO;
 
-      employeesRepository.createEmployee.mockRejectedValue(
-        new Error('Database error'),
-      );
+      const error = new Error('Database error');
 
-      await expect(service.createEmployee(dto)).rejects.toThrow(
-        InternalServerErrorException,
-      );
+      employeesRepository.createEmployee.mockRejectedValue(error);
+
+      await expect(service.createEmployee(dto)).rejects.toBe(error);
       expect(employeesRepository.createEmployee).toHaveBeenCalledWith(dto);
     });
   });
@@ -66,14 +64,12 @@ describe('EmployeesService', () => {
       expect(result).toEqual(employees);
     });
 
-    it('should throw InternalServerErrorException when repository fails', async () => {
-      employeesRepository.findEmployees.mockRejectedValue(
-        new Error('Database error'),
-      );
+    it('should propagate repository error when finding employees', async () => {
+      const error = new Error('Database error');
 
-      await expect(service.findEmployees()).rejects.toThrow(
-        InternalServerErrorException,
-      );
+      employeesRepository.findEmployees.mockRejectedValue(error);
+
+      await expect(service.findEmployees()).rejects.toBe(error);
       expect(employeesRepository.findEmployees).toHaveBeenCalledTimes(1);
     });
   });
@@ -102,14 +98,13 @@ describe('EmployeesService', () => {
       expect(result).toBeNull();
     });
 
-    it('should throw InternalServerErrorException when repository fails', async () => {
-      employeesRepository.findEmployeeById.mockRejectedValue(
-        new Error('Database error'),
-      );
+    it('should propagate repository error when finding employee by id', async () => {
+      const error = new Error('Database error');
 
-      await expect(service.findEmployeeById('emp-1')).rejects.toThrow(
-        InternalServerErrorException,
-      );
+      employeesRepository.findEmployeeById.mockRejectedValue(error);
+
+      await expect(service.findEmployeeById('emp-1')).rejects.toBe(error);
+
       expect(employeesRepository.findEmployeeById).toHaveBeenCalledWith(
         'emp-1',
       );
@@ -133,18 +128,16 @@ describe('EmployeesService', () => {
       expect(result).toEqual({ message: 'Update employee successfully' });
     });
 
-    it('should throw InternalServerErrorException when repository fails', async () => {
+    it('should propagate repository error when updating an employee', async () => {
       const dto: UpdateEmployeeDTO = {
         name: 'Jane Doe',
       } as UpdateEmployeeDTO;
 
-      employeesRepository.updateEmployee.mockRejectedValue(
-        new Error('Database error'),
-      );
+      const error = new Error('Database error');
 
-      await expect(service.updateEmployee('emp-1', dto)).rejects.toThrow(
-        InternalServerErrorException,
-      );
+      employeesRepository.updateEmployee.mockRejectedValue(error);
+
+      await expect(service.updateEmployee('emp-1', dto)).rejects.toBe(error);
       expect(employeesRepository.updateEmployee).toHaveBeenCalledWith(
         'emp-1',
         dto,
@@ -163,13 +156,11 @@ describe('EmployeesService', () => {
     });
 
     it('should throw InternalServerErrorException when repository fails', async () => {
-      employeesRepository.deleteEmployee.mockRejectedValue(
-        new Error('Database error'),
-      );
+      const error = new Error('Database error');
 
-      await expect(service.deleteEmployee('emp-1')).rejects.toThrow(
-        InternalServerErrorException,
-      );
+      employeesRepository.deleteEmployee.mockRejectedValue(error);
+
+      await expect(service.deleteEmployee('emp-1')).rejects.toBe(error);
       expect(employeesRepository.deleteEmployee).toHaveBeenCalledWith('emp-1');
     });
   });
