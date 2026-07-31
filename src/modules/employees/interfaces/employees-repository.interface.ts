@@ -10,6 +10,6 @@ export abstract class IEmployeesRepository {
   abstract updateEmployee(
     id: string,
     update: UpdateEmployeeDTO,
-  ): Promise<UpdateResult>;
+  ): Promise<boolean>;
   abstract deleteEmployee(id: string): Promise<void>;
 }
