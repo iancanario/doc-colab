@@ -12,10 +12,6 @@ export class FindPendingDocumentsDTO {
   documentTypeId?: string;
 
   @IsOptional()
-  @IsEnum(DocumentStatusEnum)
-  status?: DocumentStatusEnum;
-
-  @IsOptional()
   @IsString()
   search?: string;
 

@@ -30,12 +30,6 @@ export class EmployeeDocumentRequirementsRepository extends Repository<EmployeeD
       status: DocumentStatusEnum.Pending,
     });
 
-    if (filters.status) {
-      query.andWhere('requirement.status = :status', {
-        status: filters.status,
-      });
-    }
-
     if (filters.employeeId) {
       query.andWhere('employee.id = :employeeId', {
         employeeId: filters.employeeId,
