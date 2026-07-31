@@ -32,19 +32,17 @@ describe('DocumentTypesService', () => {
       expect(result).toEqual({ message: 'created document type successfully' });
     });
 
-    it('should throw an error when repository fails', async () => {
+    it('should propagate repository error when creating document type', async () => {
       const dto: CreateDocumentTypeDTO = {
         name: 'RG',
         code: 'RG-001',
       } as CreateDocumentTypeDTO;
 
-      dtRepository.createRepositoryType.mockRejectedValue(
-        new Error('Database error'),
-      );
+      const error = new Error('Database error');
 
-      await expect(service.createDocumentType(dto)).rejects.toThrow(
-        'Error in create document type',
-      );
+      dtRepository.createRepositoryType.mockRejectedValue(error);
+
+      await expect(service.createDocumentType(dto)).rejects.toBe(error);
       expect(dtRepository.createRepositoryType).toHaveBeenCalledWith(dto);
     });
   });
@@ -69,14 +67,12 @@ describe('DocumentTypesService', () => {
       expect(result).toEqual([]);
     });
 
-    it('should throw an error when repository fails', async () => {
-      dtRepository.findRepositoryTypes.mockRejectedValue(
-        new Error('Database error'),
-      );
+    it('should propagate repository error when finding document types', async () => {
+      const error = new Error('Database error');
 
-      await expect(service.findDocumentTypes()).rejects.toThrow(
-        'Error in find document types',
-      );
+      dtRepository.findRepositoryTypes.mockRejectedValue(error);
+
+      await expect(service.findDocumentTypes()).rejects.toBe(error);
       expect(dtRepository.findRepositoryTypes).toHaveBeenCalledTimes(1);
     });
   });
@@ -91,14 +87,11 @@ describe('DocumentTypesService', () => {
       expect(result).toEqual({ message: 'deleted document type successfully' });
     });
 
-    it('should throw an error when repository fails', async () => {
-      dtRepository.deleteRepositoryType.mockRejectedValue(
-        new Error('Database error'),
-      );
+    it('should propagate repository error when deleting', async () => {
+      const error = new Error('Database error');
+      dtRepository.deleteRepositoryType.mockRejectedValue(error);
 
-      await expect(service.deleteDocumentType('1')).rejects.toThrow(
-        'Error in delete document type',
-      );
+      await expect(service.deleteDocumentType('1')).rejects.toBe(error);
       expect(dtRepository.deleteRepositoryType).toHaveBeenCalledWith('1');
     });
   });
