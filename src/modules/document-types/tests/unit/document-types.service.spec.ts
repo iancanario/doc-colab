@@ -1,113 +1,105 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { DocumentTypesService } from '../../document-types.service';
 import { IDocumentTypesRepository } from '../../interfaces/document-types-repository.interface';
 import { DocumentType } from '../../entities/document-type.entity';
+import { CreateDocumentTypeDTO } from '../../dtos/create-document-type.dto';
 
 describe('DocumentTypesService', () => {
   let service: DocumentTypesService;
+  let dtRepository: jest.Mocked<IDocumentTypesRepository>;
 
-  const repositoryMock = {
-    createRepositoryType: jest.fn(),
-    findRepositoryTypes: jest.fn(),
-    deleteRepositoryType: jest.fn(),
-  };
+  beforeEach(() => {
+    dtRepository = {
+      createRepositoryType: jest.fn(),
+      findRepositoryTypes: jest.fn(),
+      deleteRepositoryType: jest.fn(),
+    } as jest.Mocked<IDocumentTypesRepository>;
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        DocumentTypesService,
-        {
-          provide: IDocumentTypesRepository,
-          useValue: repositoryMock,
-        },
-      ],
-    }).compile();
-
-    service = module.get(DocumentTypesService);
+    service = new DocumentTypesService(dtRepository);
   });
 
   describe('createDocumentType', () => {
     it('should create a document type successfully', async () => {
-      const dto = {
-        name: 'Contrato',
-        code: 'Contract',
-      };
+      const dto: CreateDocumentTypeDTO = {
+        name: 'RG',
+        code: 'RG-001',
+      } as CreateDocumentTypeDTO;
 
-      repositoryMock.createRepositoryType.mockResolvedValue(dto);
+      dtRepository.createRepositoryType.mockResolvedValue({} as DocumentType);
 
       const result = await service.createDocumentType(dto);
 
-      expect(repositoryMock.createRepositoryType).toHaveBeenCalledWith(dto);
-      expect(result).toEqual({
-        message: 'created document type successfully',
-      });
+      expect(dtRepository.createRepositoryType).toHaveBeenCalledWith(dto);
+      expect(result).toEqual({ message: 'created document type successfully' });
     });
 
     it('should throw an error when repository fails', async () => {
-      repositoryMock.createRepositoryType.mockRejectedValue(
-        new Error('database error'),
+      const dto: CreateDocumentTypeDTO = {
+        name: 'RG',
+        code: 'RG-001',
+      } as CreateDocumentTypeDTO;
+
+      dtRepository.createRepositoryType.mockRejectedValue(
+        new Error('Database error'),
       );
 
-      await expect(
-        service.createDocumentType({
-          name: 'Contrato',
-          code: 'Contract',
-        }),
-      ).rejects.toThrow('Error in create document type');
+      await expect(service.createDocumentType(dto)).rejects.toThrow(
+        'Error in create document type',
+      );
+      expect(dtRepository.createRepositoryType).toHaveBeenCalledWith(dto);
     });
   });
 
   describe('findDocumentTypes', () => {
-    it('should return document types', async () => {
-      const documentTypes = [
-        {
-          id: '1',
-          name: 'Contrato',
-          code: 'Contract',
-        },
-      ] as DocumentType[];
-
-      repositoryMock.findRepositoryTypes.mockResolvedValue(documentTypes);
+    it('should return a list of document types successfully', async () => {
+      const documentTypes = [{ id: 1 }, { id: 2 }] as DocumentType[];
+      dtRepository.findRepositoryTypes.mockResolvedValue(documentTypes);
 
       const result = await service.findDocumentTypes();
 
-      expect(repositoryMock.findRepositoryTypes).toHaveBeenCalled();
+      expect(dtRepository.findRepositoryTypes).toHaveBeenCalledTimes(1);
       expect(result).toEqual(documentTypes);
     });
 
+    it('should return an empty array when there are no document types', async () => {
+      dtRepository.findRepositoryTypes.mockResolvedValue([]);
+
+      const result = await service.findDocumentTypes();
+
+      expect(dtRepository.findRepositoryTypes).toHaveBeenCalledTimes(1);
+      expect(result).toEqual([]);
+    });
+
     it('should throw an error when repository fails', async () => {
-      repositoryMock.findRepositoryTypes.mockRejectedValue(
-        new Error('database error'),
+      dtRepository.findRepositoryTypes.mockRejectedValue(
+        new Error('Database error'),
       );
 
       await expect(service.findDocumentTypes()).rejects.toThrow(
         'Error in find document types',
       );
+      expect(dtRepository.findRepositoryTypes).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('deleteDocumentType', () => {
     it('should delete a document type successfully', async () => {
-      repositoryMock.deleteRepositoryType.mockResolvedValue(undefined);
+      dtRepository.deleteRepositoryType.mockResolvedValue(undefined);
 
       const result = await service.deleteDocumentType('1');
 
-      expect(repositoryMock.deleteRepositoryType).toHaveBeenCalledWith('1');
-      expect(result).toEqual({
-        message: 'deleted document type successfully',
-      });
+      expect(dtRepository.deleteRepositoryType).toHaveBeenCalledWith('1');
+      expect(result).toEqual({ message: 'deleted document type successfully' });
     });
 
     it('should throw an error when repository fails', async () => {
-      repositoryMock.deleteRepositoryType.mockRejectedValue(
-        new Error('database error'),
+      dtRepository.deleteRepositoryType.mockRejectedValue(
+        new Error('Database error'),
       );
 
       await expect(service.deleteDocumentType('1')).rejects.toThrow(
         'Error in delete document type',
       );
+      expect(dtRepository.deleteRepositoryType).toHaveBeenCalledWith('1');
     });
   });
 });
