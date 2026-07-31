@@ -12,7 +12,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EmployeeDocument } from 'src/modules/employee-documents/entities/employee-document.entity';
+import { EmployeeDocument } from '../../employee-documents/entities/employee-document.entity';
 
 @Entity('employee_document_requirements')
 export class EmployeeDocumentRequirement {

@@ -39,8 +39,8 @@ describe('DocumentTypesRepository', () => {
   describe('findRepositoryTypes', () => {
     it('should return all document types', async () => {
       const documentTypes = [
-        { id: '1', name: 'Contrato' },
-        { id: '2', name: 'CNH' },
+        { id: 1, name: 'Contrato', code: 'CONTRATO' },
+        { id: 2, name: 'CNH', code: 'CNH' },
       ] as DocumentType[];
 
       const findSpy = jest
