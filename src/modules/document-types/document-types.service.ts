@@ -14,28 +14,16 @@ export class DocumentTypesService implements IDocumentTypesService {
   async createDocumentType(
     documentType: CreateDocumentTypeDTO,
   ): Promise<{ message: string }> {
-    try {
-      await this.dtRepository.createRepositoryType(documentType);
-      return { message: 'created document type successfully' };
-    } catch (error) {
-      throw Error('Error in create document type');
-    }
+    await this.dtRepository.createRepositoryType(documentType);
+    return { message: 'created document type successfully' };
   }
 
   async findDocumentTypes(): Promise<DocumentType[]> {
-    try {
-      return await this.dtRepository.findRepositoryTypes();
-    } catch (error) {
-      throw Error('Error in find document types');
-    }
+    return await this.dtRepository.findRepositoryTypes();
   }
 
   async deleteDocumentType(id: string): Promise<{ message: string }> {
-    try {
-      await this.dtRepository.deleteRepositoryType(id);
-      return { message: 'deleted document type successfully' };
-    } catch (error) {
-      throw Error('Error in delete document type');
-    }
+    await this.dtRepository.deleteRepositoryType(id);
+    return { message: 'deleted document type successfully' };
   }
 }
