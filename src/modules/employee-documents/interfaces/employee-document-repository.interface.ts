@@ -6,5 +6,5 @@ export abstract class IEmployeeDocumentsRepository {
     documentDto: CreateEmployeeDocumentDTO,
   ): Promise<EmployeeDocument>;
   abstract findLastSents(): Promise<EmployeeDocument[]>;
-  abstract deleteEmployeeDocument(id: string): Promise<void>;
+  abstract deleteEmployeeDocument(id: number): Promise<void>;
 }

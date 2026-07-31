@@ -7,5 +7,5 @@ export abstract class IEmployeeDocumentService {
     documentDto: CreateEmployeeDocumentDTO,
   ): Promise<{ message: string }>;
   abstract findLastSents(): Promise<EmployeeDocument[]>;
-  abstract delete(id: string): Promise<{ message: string }>;
+  abstract delete(id: number): Promise<{ message: string }>;
 }

@@ -4,7 +4,7 @@ import { EmployeeDocument } from '../entities/employee-document.entity';
 import { IEmployeeDocumentsRepository } from '../interfaces/employee-document-repository.interface';
 import { CreateEmployeeDocumentDTO } from '../dtos/create-employee-document.dto';
 import { EmployeeDocumentRequirement } from '../../employee-document-requirements/entities/employee-document-requirement.entity';
-import { DocumentStatusEnum } from 'src/common/enums/document-status.enum';
+import { DocumentStatusEnum } from '../../../common/enums/document-status.enum';
 
 @Injectable()
 export class EmployeeDocumentsRepository
@@ -89,7 +89,7 @@ export class EmployeeDocumentsRepository
     });
   }
 
-  async deleteEmployeeDocument(id: string): Promise<void> {
+  async deleteEmployeeDocument(id: number): Promise<void> {
     await this.dataSource.transaction(async (manager) => {
       const repository = manager.getRepository(EmployeeDocument);
 
