@@ -64,16 +64,15 @@ export class EmployeeDocumentRequirementsRepository extends Repository<EmployeeD
 
   async percentualSentDocuments(): Promise<number> {
     const total = await this.count();
-    console.log(total);
     const sent = await this.count({
       where: {
         status: DocumentStatusEnum.Sent,
       },
     });
 
-    const pendingPercentage = total === 0 ? 0 : (sent / total) * 100;
+    const sentPercentage = total === 0 ? 0 : (sent / total) * 100;
 
-    return pendingPercentage;
+    return sentPercentage;
   }
 
   async mostDocumentsPendings(): Promise<EmployeeDocumentRequirement[]> {
