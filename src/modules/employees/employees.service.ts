@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateEmployeeDTO } from './dtos/create-employee.dto';
 import { IEmployeesService } from './interfaces/employees-service.intreface';
 import { IEmployeesRepository } from './interfaces/employees-repository.interface';
@@ -15,6 +15,12 @@ export class EmployeesService implements IEmployeesService {
   async createEmployee(
     employee: CreateEmployeeDTO,
   ): Promise<{ message: string }> {
+    const exist = await this.employeesRepository.findEmployeeByEmail(
+      employee.email,
+    );
+    if (exist) {
+      throw new BadRequestException('Employee already exists');
+    }
     await this.employeesRepository.createEmployee(employee);
     return { message: 'Create employee successfully' };
   }

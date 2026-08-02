@@ -7,6 +7,7 @@ export abstract class IEmployeesRepository {
   abstract createEmployee(employee: CreateEmployeeDTO): Promise<Employee>;
   abstract findEmployees(): Promise<Employee[]>;
   abstract findEmployeeById(id: string): Promise<Employee | null>;
+  abstract findEmployeeByEmail(email: string): Promise<Employee | null>;
   abstract updateEmployee(
     id: string,
     update: UpdateEmployeeDTO,

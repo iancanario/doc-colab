@@ -55,6 +55,10 @@ export class EmployeesRepository
     return await this.findOne({ where: { id } });
   }
 
+  async findEmployeeByEmail(email: string): Promise<Employee | null> {
+    return await this.findOne({ where: { email } });
+  }
+
   async updateEmployee(id: string, updateDto: UpdateEmployeeDTO): Promise<any> {
     return this.dataSource.transaction(async (manager) => {
       const { documentTypeIds, ...employeeData } = updateDto;
