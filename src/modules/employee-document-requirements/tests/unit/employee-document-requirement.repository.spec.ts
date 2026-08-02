@@ -62,11 +62,10 @@ describe('EmployeeDocumentRequirementsRepository', () => {
       });
     });
 
-    it('should apply status, employeeId and documentTypeId filters and calculate pagination', async () => {
+    it('should apply employeeId and documentTypeId filters and calculate pagination', async () => {
       const filters: FindPendingDocumentsDTO = {
         page: 2,
         limit: 5,
-        status: DocumentStatusEnum.Sent,
         employeeId: 'emp-1',
         documentTypeId: 'dt-1',
       } as FindPendingDocumentsDTO;
@@ -80,7 +79,7 @@ describe('EmployeeDocumentRequirementsRepository', () => {
 
       expect(queryBuilderMock.andWhere).toHaveBeenCalledWith(
         'requirement.status = :status',
-        { status: DocumentStatusEnum.Sent },
+        { status: DocumentStatusEnum.Pending },
       );
       expect(queryBuilderMock.andWhere).toHaveBeenCalledWith(
         'employee.id = :employeeId',

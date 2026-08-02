@@ -1,4 +1,4 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { EmployeesService } from '../../employees.service';
 import { IEmployeesRepository } from '../../interfaces/employees-repository.interface';
 import { Employee } from '../../entities/employee.entity';
@@ -14,6 +14,7 @@ describe('EmployeesService', () => {
       createEmployee: jest.fn(),
       findEmployees: jest.fn(),
       findEmployeeById: jest.fn(),
+      findEmployeeByEmail: jest.fn().mockResolvedValue(null),
       updateEmployee: jest.fn(),
       deleteEmployee: jest.fn(),
     } as jest.Mocked<IEmployeesRepository>;
@@ -33,6 +34,9 @@ describe('EmployeesService', () => {
 
       const result = await service.createEmployee(dto);
 
+      expect(employeesRepository.findEmployeeByEmail).toHaveBeenCalledWith(
+        dto.email,
+      );
       expect(employeesRepository.createEmployee).toHaveBeenCalledWith(dto);
       expect(result).toEqual({ message: 'Create employee successfully' });
     });
@@ -49,7 +53,27 @@ describe('EmployeesService', () => {
       employeesRepository.createEmployee.mockRejectedValue(error);
 
       await expect(service.createEmployee(dto)).rejects.toBe(error);
+      expect(employeesRepository.findEmployeeByEmail).toHaveBeenCalledWith(
+        dto.email,
+      );
       expect(employeesRepository.createEmployee).toHaveBeenCalledWith(dto);
+    });
+
+    it('should reject an employee with an email already in use', async () => {
+      const dto: CreateEmployeeDTO = {
+        name: 'John Doe',
+        email: 'john@example.com',
+        documentTypeIds: [1],
+      } as CreateEmployeeDTO;
+
+      employeesRepository.findEmployeeByEmail.mockResolvedValue({
+        id: 'emp-1',
+      } as Employee);
+
+      await expect(service.createEmployee(dto)).rejects.toThrow(
+        BadRequestException,
+      );
+      expect(employeesRepository.createEmployee).not.toHaveBeenCalled();
     });
   });
 
