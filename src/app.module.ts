@@ -6,6 +6,7 @@ import { DocumentTypesModule } from './modules/document-types/document-types.mod
 import { EmployeesModule } from './modules/employees/employees.module';
 import { EmployeeDocumentModule } from './modules/employee-documents/employeeDocument.module';
 import { EmployeeDocumentRequirementsModule } from './modules/employee-document-requirements/employee-document-requirements.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { EmployeeDocumentRequirementsModule } from './modules/employee-document-
     EmployeesModule,
     EmployeeDocumentModule,
     EmployeeDocumentRequirementsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],
