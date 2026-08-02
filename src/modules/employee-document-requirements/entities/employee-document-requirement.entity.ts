@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -15,6 +16,20 @@ import {
 import { EmployeeDocument } from '../../employee-documents/entities/employee-document.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
+@Index('IDX_requirements_pending_employee', ['employee'], {
+  where: `"status" = 'PENDING' AND "deleted_at" IS NULL`,
+})
+@Index('IDX_requirements_pending_document_type', ['documentType'], {
+  where: `"status" = 'PENDING' AND "deleted_at" IS NULL`,
+})
+@Index(
+  'UQ_requirements_active_employee_document_type',
+  ['employee', 'documentType'],
+  {
+    unique: true,
+    where: `"deleted_at" IS NULL`,
+  },
+)
 @Entity('employee_document_requirements')
 export class EmployeeDocumentRequirement {
   @PrimaryGeneratedColumn('increment')

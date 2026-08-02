@@ -1,10 +1,10 @@
 import { config } from 'dotenv';
 import { join } from 'path';
 import { DocumentType } from '../../modules/document-types/entities/document-type.entity';
-import { DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { Employee } from '../../modules/employees/entities/employee.entity';
 import { EmployeeDocument } from '../../modules/employee-documents/entities/employee-document.entity';
-import { EmployeeDocumentRequirement } from 'src/modules/employee-document-requirements/entities/employee-document-requirement.entity';
+import { EmployeeDocumentRequirement } from '../../modules/employee-document-requirements/entities/employee-document-requirement.entity';
 
 config();
 const isProd = process.env.NODE_ENV === 'production';
@@ -25,9 +25,11 @@ export const dataSourceOptions: DataSourceOptions = {
   ],
   migrations: [
     isProd
-      ? join(process.cwd(), 'dist/database/migrations/*.js')
-      : join(process.cwd(), 'src/database/migrations/*.ts'),
+      ? join(process.cwd(), 'dist/common/database/migrations/*.js')
+      : join(process.cwd(), 'src/common/database/migrations/*.ts'),
   ],
 
-  synchronize: true,
+  synchronize: false,
 };
+
+export default new DataSource(dataSourceOptions);

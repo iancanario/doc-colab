@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +11,9 @@ import {
 import { EmployeeDocumentRequirement } from '../../employee-document-requirements/entities/employee-document-requirement.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
+@Index('IDX_employee_documents_active_requirement', ['requirement'], {
+  where: `"is_active" = true AND "deleted_at" IS NULL`,
+})
 @Entity()
 export class EmployeeDocument {
   @PrimaryGeneratedColumn('uuid')

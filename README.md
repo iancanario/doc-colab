@@ -1,98 +1,161 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Doc Colab API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API desenvolvida como parte de um **teste técnico** para gestão de documentos de funcionários. A aplicação permite definir os documentos exigidos, associá-los a funcionários, registrar os envios e acompanhar pendências.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O foco do projeto é demonstrar organização de uma API NestJS, regras de negócio transacionais, persistência relacional, documentação de endpoints, validação de dados, tratamento de erros e testes automatizados.
 
-## Description
+## Funcionalidades
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Cadastro, consulta, atualização e remoção lógica de funcionários.
+- Cadastro e remoção lógica de tipos de documento, como CPF ou RG.
+- Criação automática de requisitos documentais ao cadastrar um funcionário.
+- Atualização dos requisitos quando os tipos de documento de um funcionário mudam.
+- Registro de documentos enviados por requisito, com versionamento e desativação da versão anterior.
+- Consulta paginada de requisitos pendentes, com filtros por funcionário e tipo de documento.
+- Indicadores de documentos enviados e dos tipos com mais pendências.
+- Health checks da aplicação, banco de dados e uso de memória.
+- Documentação interativa com Swagger.
 
-## Project setup
+## Stack
 
-```bash
-$ npm install
+- Node.js e TypeScript
+- NestJS
+- TypeORM
+- PostgreSQL
+- Swagger / OpenAPI
+- Jest e Supertest
+- Docker Compose para o banco de dados local
+
+## Modelo de domínio
+
+```text
+Funcionário 1 ── N Requisitos de documento N ── 1 Tipo de documento
+                         |
+                         1
+                         |
+                         N
+                    Documentos enviados
 ```
 
-## Compile and run the project
+Um requisito representa a obrigação de um funcionário enviar um tipo documental. Ao enviar um novo documento para o mesmo requisito, a versão anterior é marcada como inativa e uma nova versão é criada.
+
+Os registros utilizam *soft delete*. Requisitos ativos também possuem uma restrição de unicidade para impedir mais de um requisito ativo para o mesmo par funcionário/tipo de documento.
+
+## Pré-requisitos
+
+- Node.js 20 ou superior
+- npm
+- Docker e Docker Compose, ou uma instância PostgreSQL 16 compatível
+
+## Configuração e execução
+
+Instale as dependências:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+Suba o PostgreSQL local com Docker:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up -d db
 ```
 
-## Deployment
+Configure o arquivo `.env` com as credenciais do banco:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=dev
+DB_PASSWORD=sua_senha
+DB_NAME=doc-colab
+```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Execute as migrations e inicie a API em modo de desenvolvimento:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run migration:run
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+A API estará disponível em `http://localhost:3000` e a documentação Swagger em `http://localhost:3000/docs`.
 
-## Resources
+## Migrations
 
-Check out a few resources that may come in handy when working with NestJS:
+O `synchronize` está desabilitado para que a evolução do schema seja versionada e reproduzível entre ambientes.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# Gerar uma migration após alterar entidades
+npm run migration:generate -- src/common/database/migrations/NomeDaAlteracao
 
-## Support
+# Aplicar migrations pendentes
+npm run migration:run
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Listar migrations e seu status
+npm run migration:show
 
-## Stay in touch
+# Reverter a última migration aplicada
+npm run migration:revert
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Endpoints principais
 
-## License
+| Recurso | Métodos e rotas |
+| --- | --- |
+| Funcionários | `POST /employees`, `GET /employees`, `GET /employees/by-id/:id`, `PATCH /employees/:id`, `DELETE /employees/:id` |
+| Tipos de documento | `POST /document-types`, `GET /document-types`, `DELETE /document-types/:id` |
+| Documentos | `POST /documents`, `GET /documents/find-last-sents`, `DELETE /documents/:id` |
+| Requisitos | `GET /requirements/pendings`, `GET /requirements/percentual-pendings`, `GET /requirements/most-pendings` |
+| Saúde | `GET /health`, `GET /health/live`, `GET /health/database` |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Exemplo de criação de funcionário:
+
+```json
+{
+  "name": "João Silva",
+  "email": "joao.silva@example.com",
+  "documentTypeIds": [1, 2]
+}
+```
+
+Exemplo de envio de documento:
+
+```json
+{
+  "employeeId": "468b2024-2b65-42c7-bc60-1b527529321d",
+  "requirementId": 1,
+  "documentUrl": "https://storage.example.com/documentos/cpf.pdf"
+}
+```
+
+## Qualidade e decisões técnicas
+
+- As operações que criam ou atualizam funcionário e requisitos, assim como o envio de documentos, são executadas em transações.
+- As regras são separadas em controller, service e repository, com contratos de dependência para facilitar testes unitários.
+- DTOs usam `class-validator`; exceções HTTP e erros conhecidos do PostgreSQL possuem respostas padronizadas.
+- As relações e consultas mais frequentes contam com índices parciais voltados a requisitos pendentes e documentos ativos.
+- A API não recebe arquivos binários: ela persiste a URL do documento. Em produção, o upload pode ser integrado a um serviço de armazenamento de objetos.
+
+## Testes e validação
+
+```bash
+# Testes unitários
+npm run test
+
+# Cobertura
+npm run test:cov
+
+# Testes end-to-end
+npm run test:e2e
+
+# Build de produção
+npm run build
+```
+
+## Próximos passos
+
+- Adicionar autenticação e autorização por perfil.
+- Integrar upload de arquivos a um storage externo.
+- Expandir testes de integração usando um banco isolado.
+- Adicionar ordenação explícita às listagens paginadas e contratos de resposta mais detalhados.
