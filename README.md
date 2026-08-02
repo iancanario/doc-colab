@@ -39,7 +39,7 @@ Funcionário 1 ── N Requisitos de documento N ── 1 Tipo de documento
 
 Um requisito representa a obrigação de um funcionário enviar um tipo documental. Ao enviar um novo documento para o mesmo requisito, a versão anterior é marcada como inativa e uma nova versão é criada.
 
-Os registros utilizam *soft delete*. Requisitos ativos também possuem uma restrição de unicidade para impedir mais de um requisito ativo para o mesmo par funcionário/tipo de documento.
+Os registros utilizam _soft delete_. Requisitos ativos também possuem uma restrição de unicidade para impedir mais de um requisito ativo para o mesmo par funcionário/tipo de documento.
 
 ## Pré-requisitos
 
@@ -101,13 +101,13 @@ npm run migration:revert
 
 ## Endpoints principais
 
-| Recurso | Métodos e rotas |
-| --- | --- |
-| Funcionários | `POST /employees`, `GET /employees`, `GET /employees/by-id/:id`, `PATCH /employees/:id`, `DELETE /employees/:id` |
-| Tipos de documento | `POST /document-types`, `GET /document-types`, `DELETE /document-types/:id` |
-| Documentos | `POST /documents`, `GET /documents/find-last-sents`, `DELETE /documents/:id` |
-| Requisitos | `GET /requirements/pendings`, `GET /requirements/percentual-pendings`, `GET /requirements/most-pendings` |
-| Saúde | `GET /health`, `GET /health/live`, `GET /health/database` |
+| Recurso            | Métodos e rotas                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| Funcionários       | `POST /employees`, `GET /employees`, `GET /employees/by-id/:id`, `PATCH /employees/:id`, `DELETE /employees/:id` |
+| Tipos de documento | `POST /document-types`, `GET /document-types`, `DELETE /document-types/:id`                                      |
+| Documentos         | `POST /documents`, `GET /documents/find-last-sents`, `DELETE /documents/:id`                                     |
+| Requisitos         | `GET /requirements/pendings`, `GET /requirements/percentual-pendings`, `GET /requirements/most-pendings`         |
+| Saúde              | `GET /health`, `GET /health/live`, `GET /health/database`                                                        |
 
 Exemplo de criação de funcionário:
 
@@ -152,10 +152,3 @@ npm run test:e2e
 # Build de produção
 npm run build
 ```
-
-## Próximos passos
-
-- Adicionar autenticação e autorização por perfil.
-- Integrar upload de arquivos a um storage externo.
-- Expandir testes de integração usando um banco isolado.
-- Adicionar ordenação explícita às listagens paginadas e contratos de resposta mais detalhados.
